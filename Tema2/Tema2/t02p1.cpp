@@ -157,7 +157,7 @@ void Display5() {
 	ymax += 0.1;
 
 	// afisarea punctelor propriu-zise precedata de scalare
-	glColor3f(1, 0.1, 0.1); // rosu
+	glColor3f(0.1,0.1,0.8); // albastru
 	glBegin(GL_LINE_LOOP);
 	glVertex2f(-xmax, ymax - 0.1);
 	for (double t = -pi / 2 + ratia; t < -pi / 6; t += ratia) {
@@ -166,8 +166,27 @@ void Display5() {
 		glVertex2f(x1, y1);
 	}
 	glEnd();
+	ratia = 0.01;
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_TRIANGLES);
+	int count = 0;
+	for (double t = -pi / 2 + ratia; t < -pi / 6; t += ratia) {
+		if (count % 3 == 1) {
 
+			double x1 = a / (4 * cos(t) * cos(t) - 3) / xmax;
+			double y1 = a * tan(t) / (4 * cos(t) * cos(t) - 3) / ymax;
 
+			double x2 = a / (4 * cos(t + ratia) * cos(t + ratia) - 3) / xmax;
+			double y2 = a * tan(t + ratia) / (4 * cos(t + ratia) * cos(t + ratia) - 3) / ymax;
+			if ((x1>-xmax && x2>-xmax && y1<ymax && y2<ymax)&&(y1>0.2)) {
+				glVertex2f(x1, y1);
+				glVertex2f(x2, y2);
+				glVertex2f(-xmax, ymax - 0.1);
+			}
+		}
+		count++;
+	}
+	glEnd();
 }
 
 void Display6() {
@@ -175,15 +194,16 @@ void Display6() {
 	double b = 0.2;
 	double pi = atan(1.0);
 	double ratia = 0.05;
-	// afisarea punctelor propriu-zise precedata de scalare
+	// afisarea punctelor propriu-zise 
 	glColor3f(1, 0.1, 0.1); // rosu
 	glBegin(GL_LINE_STRIP);
 	for (double t = -100; t <= 100; t += ratia)
 	{
 		double x1 = (a * t - b * sin(t));
 		double y1 = (a - b * cos(t));
-
-		glVertex2f(x1, y1);
+		if (x1 > -0.9 && x1 < 0.8) {
+			glVertex2f(x1, y1);
+		}
 
 	}
 	glEnd();
@@ -219,7 +239,7 @@ void Display7() {
 	{
 		double x1 = ((R + r) * cos(r * t / R) - r * cos(t + r * t / R)) / xmax;
 		double y1 = ((R + r) * sin(r * t / R) - r * sin(t + r * t / R)) / ymax;
-
+		
 		glVertex2f(x1, y1);
 
 	}
@@ -286,21 +306,11 @@ void Display9() {
 		}
 
 	}
-	xmax += 0.1;
-	ymax += 0.2;
+	xmax += 0.3;
+	ymax += 0.5;
 	// afisarea punctelor propriu-zise precedata de scalare
 	glColor3f(1, 0.1, 0.1); // rosu
 	glBegin(GL_LINE_STRIP);
-
-	for (double t = -pi / 4 + ratia; t < pi / 4; t += ratia)
-	{
-		double r = a * sqrt(2 * cos(2 * t));
-		double x1 = r * cos(t) / xmax;
-		double y1 = r * sin(t) / ymax;
-
-		glVertex2f(x1, y1);
-
-	}
 
 	for (double t = pi / 4 - ratia; t > -pi / 4; t -= ratia)
 	{
@@ -312,6 +322,15 @@ void Display9() {
 
 	}
 
+	for (double t = -pi / 4 + ratia; t < pi / 4; t += ratia)
+	{
+		double r = a * sqrt(2 * cos(2 * t));
+		double x1 = r * cos(t) / xmax;
+		double y1 = r * sin(t) / ymax;
+
+		glVertex2f(x1, y1);
+
+	}
 
 	glEnd();
 }
